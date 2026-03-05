@@ -6,10 +6,12 @@ pydantic==2.10.3
 langchain==0.3.10
 langchain-openai==0.2.11
 langchain-community==0.3.10
+langchain-chroma==0.2.0
 langchain-text-splitters==0.3.2
 chromadb==0.5.23
 pypdf==5.1.0
 pydantic-settings==2.6.1
+openai==1.109.1
 
 streamlit==1.40.2
 requests==2.32.3

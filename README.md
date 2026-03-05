@@ -37,7 +37,13 @@ README.md
 
 ## Setup
 
-1) Create and activate a Python 3.11 virtualenv.
+1) Create and activate a Python 3.11 virtualenv:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
 2) Install dependencies:
 
 ```bash
@@ -54,7 +60,7 @@ cp .env.example .env
 4) Run API locally:
 
 ```bash
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 > `GET /health` works without an API key, but `/ingest` and `/analyze` require `OPENAI_API_KEY`.
@@ -109,6 +115,26 @@ Demo flow:
 6. Click **Analyze**.
 7. Review overall score/confidence and expand module sections to inspect findings, recommendations, and citations.
 
+## Built-in web frontend
+
+The API now serves a built-in frontend at the root path (`/`) with:
+- health check
+- PDF ingestion
+- collection file listing
+- analysis runner (`triage`, `targeted`, `deep`)
+
+Run the API:
+
+```bash
+python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Then open:
+
+```text
+http://localhost:8000/
+```
+
 ## Modes
 - `triage`: one LLM call that returns high-risk areas, missing info, recommended modules, and questions.
 - `targeted`: triage first, then runs up to `budget_modules` from recommended modules.
@@ -134,3 +160,4 @@ docker run --rm -p 8000:8000 --env-file .env system-design-reviewer
 ## Notes
 - If model output is invalid JSON, the service retries once with stricter formatting instruction.
 - Unknowns are expected and should appear in `missing_info`.
+- Dependency versions are pinned for stability (including `openai` and `langchain-chroma`) to reduce resolver drift between environments.

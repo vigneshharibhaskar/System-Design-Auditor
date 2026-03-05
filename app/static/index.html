@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>System Design Reviewer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-a"></div>
+    <div class="bg-orb orb-b"></div>
+    <div id="toastHost" class="toast-host" aria-live="polite"></div>
+    <main class="layout">
+      <header class="hero card reveal">
+        <p class="kicker">Production Audit UI</p>
+        <h1>System Design Reviewer</h1>
+        <p class="subhead">Upload design docs, run targeted analysis, and inspect concrete findings in one place.</p>
+        <button id="healthBtn" class="btn btn-ghost">Check API Health</button>
+        <p id="healthOut" class="tiny"></p>
+      </header>
+
+      <section class="section reveal">
+        <h2 class="section-title">Ingest & Collections</h2>
+        <div class="grid">
+          <article class="card reveal">
+            <h2>Ingest PDF</h2>
+            <form id="ingestForm" class="stack">
+              <label>Collection<input name="collection" value="default" required /></label>
+              <label>Ingest Token<input name="token" type="password" placeholder="x-ingest-token" required /></label>
+              <label>PDF File<input name="file" type="file" accept="application/pdf" required /></label>
+              <button class="btn" id="ingestBtn" type="submit">Ingest</button>
+            </form>
+            <div id="ingestOut" class="status-panel muted">Upload a design PDF to build collection context.</div>
+          </article>
+
+          <article class="card reveal">
+            <h2>Collection Files</h2>
+            <form id="filesForm" class="inline-form">
+              <input name="collection" value="default" required />
+              <button class="btn btn-ghost" id="filesBtn" type="submit">Refresh</button>
+            </form>
+            <div id="filesOut" class="status-panel muted">No collection data loaded yet.</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="card section reveal">
+        <h2 class="section-title">Run Analysis</h2>
+        <form id="analyzeForm" class="stack">
+          <label>Collection<input name="collection" value="default" required /></label>
+          <label>Query<textarea name="query" rows="4">Review this design for production readiness</textarea></label>
+          <div class="split">
+            <label>Mode
+              <select name="mode">
+                <option value="triage">triage</option>
+                <option value="targeted" selected>targeted</option>
+                <option value="deep">deep</option>
+              </select>
+            </label>
+            <label>Top K<input name="top_k" type="number" value="6" min="1" max="20" /></label>
+            <label>Budget Modules<input name="budget_modules" type="number" value="3" min="1" max="9" /></label>
+          </div>
+          <label>Optional File Filter<input name="file_filter" placeholder="Exact filename" /></label>
+          <button class="btn" id="analyzeBtn" type="submit">Analyze</button>
+        </form>
+        <div id="analyzeOut" class="status-panel muted">Configure inputs and run analysis.</div>
+      </section>
+
+      <section class="card section reveal" id="auditSection">
+        <h2 class="section-title">Audit Report</h2>
+        <div id="auditReport" class="audit-report empty">
+          <p>Analysis results will appear here after you run a review.</p>
+        </div>
+      </section>
+    </main>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
